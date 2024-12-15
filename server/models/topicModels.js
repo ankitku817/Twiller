@@ -1,5 +1,5 @@
 const { ObjectId } = require('mongodb');
-const { client } = require('../config/dbConfig');
+const { client } = require('../config/dbConfig'); // Assumes a centralized database configuration file
 
 const topicCollection = client.db("database").collection("topics");
 
@@ -17,7 +17,7 @@ exports.addTopic = async (topic) => {
 // Function to retrieve all trending topics
 exports.getTrendingTopics = async () => {
   try {
-    const topics = await topicCollection.find({}).toArray();
+    const topics = await topicCollection.find({}).sort({ createdAt: -1 }).toArray(); // Sorted by creation time
     return topics;
   } catch (error) {
     console.error("Error retrieving trending topics:", error);
